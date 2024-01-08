@@ -69,7 +69,7 @@ const imageContainer = document.querySelector(".gallery");
 const markup = images
     .map(
         (image) => `<li class="gallery-item">
-    <a class="gallery-link" href=${image.original}>
+    <a class="gallery-link" href="${image.original}">
     <img
         class="gallery-image"
         src="${image.preview}"
@@ -90,17 +90,22 @@ function selectImg(event) {
     if (event.target.nodeName !== "IMG") {
         return;
     }
-
+    
     const linkToOriginal = event.target.dataset.source;
-
+    const descriptionOriginal = event.target.alt;
+   
     const instance = basicLightbox.create(
-        `<img width="1112" height="640" src="${linkToOriginal}">`,
+        `<img width="1112" height="640" src="${linkToOriginal}" alt="${descriptionOriginal}">`,
         {
             onShow: (instance) => {
                 document.addEventListener("keydown", clickOnEscape);
             },
+            onClose: (instance) => {
+                document.removeEventListener("keydown", clickOnEscape);
+            },
         }
     );
+
     instance.show();
 
     function clickOnEscape(event) {
